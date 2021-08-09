@@ -1159,7 +1159,23 @@ function _p9k_parse_aws_config() {
 ################################################################
 # AWS Profile
 prompt_aws() {
-  typeset -g P9K_AWS_PROFILE="${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-$AWS_DEFAULT_PROFILE}}}"
+  local awsctx_profile
+  if (( $+commands[awsctx] )); then
+    () {
+      local profile
+      if ! _p9k_cache_stat_get $0 ~/.aws/awsctx; then
+        if [[ -f ~/.aws/config && -f ~/.aws/credentials ]]; then
+          profile="$(command awsctx --no-color 2>&1)" || profile=
+          profile="${${(@M)${(@f)profile}:#\**}#\*}"
+          _p9k_cache_set "$profile"
+        fi
+      fi
+      [[ -n $_p9k__cache_val[1] ]] || return
+      awsctx_profile="$_p9k__cache_val[1]"
+    }
+  fi
+
+  typeset -g P9K_AWS_PROFILE="${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-$awsctx_profile}}}}"
   local pat class state
   for pat class in "${_POWERLEVEL9K_AWS_CLASSES[@]}"; do
     if [[ $P9K_AWS_PROFILE == ${~pat} ]]; then
@@ -1177,7 +1193,12 @@ prompt_aws() {
       _p9k_parse_aws_config $cfg
       _p9k_cache_stat_set $reply
     fi
-    local prefix=$#P9K_AWS_PROFILE:$P9K_AWS_PROFILE:
+    local prefix
+    if [[ -n $awsctx_profile ]]; then
+      prefix=7:default:
+    else
+      prefix=$#P9K_AWS_PROFILE:$P9K_AWS_PROFILE:
+    fi
     local kv=$_p9k__cache_val[(r)${(b)prefix}*]
     typeset -g P9K_AWS_REGION=${kv#$prefix}
   fi
@@ -1186,7 +1207,7 @@ prompt_aws() {
 }
 
 _p9k_prompt_aws_init() {
-  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-$AWS_DEFAULT_PROFILE}}}'
+  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-$commands[awsctx]}}}}'
 }
 
 ################################################################
