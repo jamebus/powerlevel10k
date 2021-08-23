@@ -3,7 +3,7 @@ if [[ $__p9k_sourced != 13 ]]; then
   >&2 print -P "[%F{1}ERROR%f]: Corrupted powerlevel10k installation."
   >&2 print -P ""
   if (( ${+functions[antigen]} )); then
-    >&2 print -P "If using %Bantigen%b, run the folowing command to fix:"
+    >&2 print -P "If using %Bantigen%b, run the following command to fix:"
     >&2 print -P ""
     >&2 print -P "    %F{2}antigen%f reset"
     if [[ -d ~/.antigen ]]; then
@@ -1184,8 +1184,8 @@ prompt_aws() {
     fi
   done
 
-  if [[ -n $AWS_DEFAULT_REGION ]]; then
-    typeset -g P9K_AWS_REGION=$AWS_DEFAULT_REGION
+  if [[ -n ${AWS_REGION:-$AWS_DEFAULT_REGION} ]]; then
+    typeset -g P9K_AWS_REGION=${AWS_REGION:-$AWS_DEFAULT_REGION}
   else
     local cfg=${AWS_CONFIG_FILE:-~/.aws/config}
     if ! _p9k_cache_stat_get $0 $cfg; then
@@ -7212,6 +7212,7 @@ _p9k_init_params() {
   case $parameters[POWERLEVEL9K_BATTERY_STAGES] in
     scalar*) typeset -ga _POWERLEVEL9K_BATTERY_STAGES=("${(@s::)${(g::)POWERLEVEL9K_BATTERY_STAGES}}");;
     array*)  typeset -ga _POWERLEVEL9K_BATTERY_STAGES=("${(@g::)POWERLEVEL9K_BATTERY_STAGES}");;
+    *)       typeset -ga _POWERLEVEL9K_BATTERY_STAGES=();;
   esac
   local state
   for state in CHARGED CHARGING LOW DISCONNECTED; do
@@ -8150,7 +8151,7 @@ _p9k_must_init() {
     [[ $sig == $_p9k__param_sig ]] && return 1
     _p9k_deinit
   fi
-  _p9k__param_pat=$'v124\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
+  _p9k__param_pat=$'v125\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
   _p9k__param_pat+=$'${#parameters[(I)POWERLEVEL9K_*]}\1${(%):-%n%#}\1$GITSTATUS_LOG_LEVEL\1'
   _p9k__param_pat+=$'$GITSTATUS_ENABLE_LOGGING\1$GITSTATUS_DAEMON\1$GITSTATUS_NUM_THREADS\1'
   _p9k__param_pat+=$'$GITSTATUS_CACHE_DIR\1$GITSTATUS_AUTO_INSTALL\1${ZLE_RPROMPT_INDENT:-1}\1'
