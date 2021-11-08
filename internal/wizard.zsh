@@ -1057,7 +1057,7 @@ function ask_use_rprompt() {
   case $choice in
     r) return 1;;
     1) ;;
-    2) pure_use_rprompt=; options+=rpromt;;
+    2) pure_use_rprompt=; options+=rprompt;;
   esac
   return 0
 }
@@ -1103,6 +1103,7 @@ function os_icon_name() {
           *manjaro*)               echo LINUX_MANJARO_ICON;;
           *void*)                  echo LINUX_VOID_ICON;;
           *artix*)                 echo LINUX_ARTIX_ICON;;
+          *rhel*)                  echo LINUX_RHEL_ICON;;
           *)                       echo LINUX_ICON;;
         esac
         ;;
@@ -1767,6 +1768,7 @@ function generate_config() {
       uncomment 'typeset -g POWERLEVEL9K_CONTEXT_PREFIX'
       uncomment 'typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX'
       uncomment 'typeset -g POWERLEVEL9K_TIME_PREFIX'
+      uncomment 'typeset -g POWERLEVEL9K_TOOLBOX_PREFIX'
       if [[ $style == (lean|classic) ]]; then
         [[ $style == classic ]] && local fg="%$prefix_color[$color]F" || local fg="%f"
         sub VCS_PREFIX "'${fg}on '"
@@ -1774,6 +1776,7 @@ function generate_config() {
         sub CONTEXT_PREFIX "'${fg}with '"
         sub KUBECONTEXT_PREFIX "'${fg}at '"
         sub TIME_PREFIX "'${fg}at '"
+        sub TOOLBOX_PREFIX "'${fg}in '"
       fi
     fi
 
@@ -2090,12 +2093,12 @@ restore_screen
 if (( !in_z4h_wizard )); then
   print
 
-  flowing +c New config: "%B${__p9k_cfg_path_u//\\/\\\\}%b."
+  flowing +c New config: "%U${__p9k_cfg_path_u//\\/\\\\}%u."
   if [[ -n $config_backup ]]; then
-    flowing +c Backup of the old config: "%B${config_backup_u//\\/\\\\}%b."
+    flowing +c Backup of the old config: "%U${config_backup_u//\\/\\\\}%u."
   fi
   if [[ -n $zshrc_backup ]]; then
-    flowing +c Backup of "%B${__p9k_zshrc_u//\\/\\\\}%b:" "%B${zshrc_backup_u//\\/\\\\}%b."
+    flowing +c Backup of "%U${__p9k_zshrc_u//\\/\\\\}%u:" "%U${zshrc_backup_u//\\/\\\\}%u."
   fi
 fi
 

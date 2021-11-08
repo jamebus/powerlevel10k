@@ -520,95 +520,100 @@ If you are using a different terminal, proceed with manual font installation. �
 
 #### Manual font installation
 
-Download these four ttf files:
-
-- [MesloLGS NF Regular.ttf](
-    https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
-- [MesloLGS NF Bold.ttf](
-    https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
-- [MesloLGS NF Italic.ttf](
-    https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
-- [MesloLGS NF Bold Italic.ttf](
-    https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
-
-Double-click on each file and click "Install". This will make `MesloLGS NF` font available to all
-applications on your system. Configure your terminal to use this font:
-
-- **iTerm2**: Type `p10k configure` and answer `Yes` when asked whether to install
-  *Meslo Nerd Font*. Alternatively, open *iTerm2 → Preferences → Profiles → Text* and set *Font* to
-  `MesloLGS NF`.
-- **Apple Terminal**: Open *Terminal → Preferences → Profiles → Text*, click *Change* under *Font*
-  and select `MesloLGS NF` family.
-- **Hyper**: Open *Hyper → Edit → Preferences* and change the value of `fontFamily` under
-  `module.exports.config` to `MesloLGS NF`.
-- **Visual Studio Code**: Open *File → Preferences → Settings*, enter
-  `terminal.integrated.fontFamily` in the search box and set the value to `MesloLGS NF`.
-- **GNOME Terminal** (the default Ubuntu terminal): Open *Terminal → Preferences* and click on the
-  selected profile under *Profiles*. Check *Custom font* under *Text Appearance* and select
-  `MesloLGS NF Regular`.
-- **Konsole**: Open *Settings → Edit Current Profile → Appearance*, click *Select Font* and select
-  `MesloLGS NF Regular`.
-- **Tilix**: Open *Tilix → Preferences* and click on the selected profile under *Profiles*. Check
-  *Custom font* under *Text Appearance* and select `MesloLGS NF Regular`.
-- **Windows Console Host** (the old thing): Click the icon in the top left corner, then
-  *Properties → Font* and set *Font* to `MesloLGS NF`.
-- **Windows Terminal** by Microsoft (the new thing): Open `settings.json` (<kbd>Ctrl+Shift+,</kbd>),
-  search for `fontFace` and set the value to `MesloLGS NF` for every profile. If you don't find
-  `fontFace`, add it under *profiles → defaults*. See [this settings file](
-    https://raw.githubusercontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
-  for example.
-- **IntelliJ** (and other IDEs by Jet Brains): Open *IDE → Edit → Preferences → Editor →
-  Color Scheme → Console Font*. Select *Use console font instead of the default* and set the font
-  name to `MesloLGS NF`.
-- **Termux**: Type `p10k configure` and answer `Yes` when asked whether to install
-  *Meslo Nerd Font*.
-- **Blink**: Type `config`, go to *Appearance*, tap *Add a new font*, tap *Open Gallery*, select
-  *MesloLGS NF.css*, tap *import* and type `exit` in the home view to reload the font.
-- **Terminus**: Open *Settings → Appearance* and set *Font* to `MesloLGS NF`.
-- **Terminator**: Open *Preferences* using the context menu. Under *Profiles* select the *General*
-  tab (should be selected already), uncheck *Use the system fixed width font* (if not already)
-  and select `MesloLGS NF Regular`. Exit the Preferences dialog by clicking *Close*.
-- **Guake**: Right Click on an open terminal and open *Preferences*. Under *Appearance*
-  tab, uncheck *Use the system fixed width font* (if not already) and select `MesloLGS NF Regular`.
-  Exit the Preferences dialog by clicking *Close*.
-- **MobaXterm**: Open *Settings* → *Configuration* → *Terminal* → (under *Terminal look and feel*)
-  and change *Font* to `MesloLGS NF`.
-- **Asbrú Connection Manager**: Open *Preferences → Local Shell Options → Look and Feel*, enable
-  *Use these personal options* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
-  To change the font for the remote host connections, go to *Preferences → Terminal Options →
-  Look and Feel* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
-- **WSLtty**: Right click on an open terminal and then on *Options*. In the *Text* section, under
-  *Font*, click *"Select..."* and set Font to `MesloLGS NF Regular`.
-- **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
-  to it:
-  ```yaml
-  font:
-    normal:
-      family: "MesloLGS NF"
-  ```
- - **Kitty**: Create or open `~/.config/kitty/kitty.conf` and add the following line to it:
-   ```text
-   font_family MesloLGS NF
-   ```
-   Restart Kitty by closing all sessions and opening a new session.
-- **WezTerm**: Create or open `$HOME/.config/wezterm/wezterm.lua` and add the following:
-  ```lua
-  local wezterm = require 'wezterm';
-  return {
-      font = wezterm.font("MesloLGS NF"),
-  }
-  ```
-  If the file already exists, only add the line with the font to the existing return.
-  Also add the first line if it is not already present.
-- **urxvt**: Create or open `~/.Xresources` and add the following line to it:
-   ```text
-   URxvt.font: xft:MesloLGS NF:size=11
-   ```
-  You can adjust the font size to your preference. After changing the configuration use `xrdb ~/.Xresources` to reload the config.
-  The new config is applied for all new terminals.
-
-**IMPORTANT:** Run `p10k configure` after changing terminal font. The old `~/.p10k.zsh` may work
-incorrectly with the new font.
+1. Download these four ttf files:
+   - [MesloLGS NF Regular.ttf](
+       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf)
+   - [MesloLGS NF Bold.ttf](
+       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf)
+   - [MesloLGS NF Italic.ttf](
+       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf)
+   - [MesloLGS NF Bold Italic.ttf](
+       https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf)
+1. Double-click on each file and click "Install". This will make `MesloLGS NF` font available to all
+   applications on your system.
+1. Configure your terminal to use this font:
+   - **iTerm2**: Type `p10k configure` and answer `Yes` when asked whether to install
+     *Meslo Nerd Font*. Alternatively, open *iTerm2 → Preferences → Profiles → Text* and set *Font* to
+     `MesloLGS NF`.
+   - **Apple Terminal**: Open *Terminal → Preferences → Profiles → Text*, click *Change* under *Font*
+     and select `MesloLGS NF` family.
+   - **Hyper**: Open *Hyper → Edit → Preferences* and change the value of `fontFamily` under
+     `module.exports.config` to `MesloLGS NF`.
+   - **Visual Studio Code**: Open *File → Preferences → Settings* (PC) or
+     *Code → Preferences → Settings* (Mac), enter `terminal.integrated.fontFamily` in the search box at
+     the top of *Settings* tab and set the value below to `MesloLGS NF`.
+     Consult [this screenshot](
+       https://raw.githubusercontent.com/romkatv/powerlevel10k-media/389133fb8c9a2347929a23702ce3039aacc46c3d/visual-studio-code-font-settings.jpg)
+     to see how it should look like or see [this issue](
+       https://github.com/romkatv/powerlevel10k/issues/671) for extra information.
+   - **GNOME Terminal** (the default Ubuntu terminal): Open *Terminal → Preferences* and click on the
+     selected profile under *Profiles*. Check *Custom font* under *Text Appearance* and select
+     `MesloLGS NF Regular`.
+   - **Konsole**: Open *Settings → Edit Current Profile → Appearance*, click *Select Font* and select
+     `MesloLGS NF Regular`.
+   - **Tilix**: Open *Tilix → Preferences* and click on the selected profile under *Profiles*. Check
+     *Custom font* under *Text Appearance* and select `MesloLGS NF Regular`.
+   - **Windows Console Host** (the old thing): Click the icon in the top left corner, then
+     *Properties → Font* and set *Font* to `MesloLGS NF`.
+   - **Windows Terminal** by Microsoft (the new thing): Open `settings.json` (<kbd>Ctrl+Shift+,</kbd>),
+     search for `fontFace` and set the value to `MesloLGS NF` for every profile. If you don't find
+     `fontFace`, add it under *profiles → defaults*. See [this settings file](
+       https://raw.githubusercontent.com/romkatv/dotfiles-public/aba0e6c4657d705ed6c344d700d659977385f25c/dotfiles/microsoft-terminal-settings.json)
+     for example.
+   - **IntelliJ** (and other IDEs by Jet Brains): Open *IDE → Edit → Preferences → Editor →
+     Color Scheme → Console Font*. Select *Use console font instead of the default* and set the font
+     name to `MesloLGS NF`.
+   - **Termux**: Type `p10k configure` and answer `Yes` when asked whether to install
+     *Meslo Nerd Font*.
+   - **Blink**: Type `config`, go to *Appearance*, tap *Add a new font*, tap *Open Gallery*, select
+     *MesloLGS NF.css*, tap *import* and type `exit` in the home view to reload the font.
+   - **Terminus**: Open *Settings → Appearance* and set *Font* to `MesloLGS NF`.
+   - **Terminator**: Open *Preferences* using the context menu. Under *Profiles* select the *General*
+     tab (should be selected already), uncheck *Use the system fixed width font* (if not already)
+     and select `MesloLGS NF Regular`. Exit the Preferences dialog by clicking *Close*.
+   - **Guake**: Right Click on an open terminal and open *Preferences*. Under *Appearance*
+     tab, uncheck *Use the system fixed width font* (if not already) and select `MesloLGS NF Regular`.
+     Exit the Preferences dialog by clicking *Close*.
+   - **MobaXterm**: Open *Settings* → *Configuration* → *Terminal* → (under *Terminal look and feel*)
+     and change *Font* to `MesloLGS NF`.
+   - **Asbrú Connection Manager**: Open *Preferences → Local Shell Options → Look and Feel*, enable
+     *Use these personal options* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
+     To change the font for the remote host connections, go to *Preferences → Terminal Options →
+     Look and Feel* and change *Font:* under *Terminal UI* to `MesloLGS NF Regular`.
+   - **WSLtty**: Right click on an open terminal and then on *Options*. In the *Text* section, under
+     *Font*, click *"Select..."* and set Font to `MesloLGS NF Regular`.
+   - **Yakuake**: Click *≡* → *Manage Profiles* → *New* → *Appearance*. Click *Choose* next to the
+     *Font* dropdown, select `MesloLGS NF` and click *OK*. Click *OK* to save the profile. Select the
+     new profile and click *Set as Default*.
+   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
+     to it:
+     ```yaml
+     font:
+       normal:
+         family: "MesloLGS NF"
+     ```
+    - **Kitty**: Create or open `~/.config/kitty/kitty.conf` and add the following line to it:
+      ```text
+      font_family MesloLGS NF
+      ```
+      Restart Kitty by closing all sessions and opening a new session.
+   - **WezTerm**: Create or open `$HOME/.config/wezterm/wezterm.lua` and add the following:
+     ```lua
+     local wezterm = require 'wezterm';
+     return {
+         font = wezterm.font("MesloLGS NF"),
+     }
+     ```
+     If the file already exists, only add the line with the font to the existing return.
+     Also add the first line if it is not already present.
+   - **urxvt**: Create or open `~/.Xresources` and add the following line to it:
+      ```text
+      URxvt.font: xft:MesloLGS NF:size=11
+      ```
+     You can adjust the font size to your preference. After changing the configuration use `xrdb ~/.Xresources` to reload the config.
+     The new config is applied for all new terminals.
+1. Run `p10k configure` to generate a new `~/.p10k.zsh`. The old config may work
+   incorrectly with the new font.
 
 _Using a different terminal and know how to set the font for it? Share your knowledge by sending a
 PR to expand the list!_
@@ -707,7 +712,11 @@ The command to update Powerlevel10k depends on how it was installed.
    | [Zinit](#zinit)           | `zinit delete romkatv/powerlevel10k`                             |
    | [Homebrew](#homebrew)     | `brew uninstall powerlevel10k; brew untap romkatv/powerlevel10k` |
    | [Arch Linux](#arch-linux) | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
-5. Restart Zsh. [Do not use `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
+6. Restart Zsh. [Do not use `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
+7. Delete Powerlevel10k cache files.
+   ```zsh
+   rm -rf -- "${XDG_CACHE_HOME:-$HOME/.cache}"/p10k-*(N) "${XDG_CACHE_HOME:-$HOME/.cache}"/gitstatus
+   ```
 
 ### How do I install Powerlevel10k on a machine without Internet access?
 
@@ -896,6 +905,54 @@ initialization and you don't know how to fix it.
 
 *Note*: Instant prompt requires Zsh >= 5.4. It's OK to enable it even when using an older version of
 Zsh but it won't do anything.
+
+*FAQ*:
+
+- [How do I initialize direnv when using instant prompt?](
+    #how-do-i-initialize-direnv-when-using-instant-prompt)
+- [How do I export GPG_TTY when using instant prompt?](
+    #how-do-i-export-gpg_tty-when-using-instant-prompt)
+
+### How do I initialize direnv when using instant prompt?
+
+If you've enabled [instant prompt](#instant-prompt), you should have these lines at the top of
+`~/.zshrc`:
+
+```zsh
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+```
+
+To initialize direnv you need to add one line above that block and one line below it.
+
+```zsh
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
+```
+
+*Related*: [How do I export GPG_TTY when using instant prompt?](
+  #how-do-i-export-gpg_tty-when-using-instant-prompt)
+
+### How do I export GPG_TTY when using instant prompt?
+
+You can export `GPG_TTY` like this anywhere in `~/.zshrc`:
+
+```zsh
+export GPG_TTY=$TTY
+```
+
+This works whether you are using [instant prompt](#instant-prompt) or not. It works even if you
+aren't using powerlevel10k. As an extra bonus, it's much faster than the commonly used
+`export GPG_TTY=$(tty)`.
+
+*Related*: [How do I initialize direnv when using instant prompt?](
+  #how-do-i-initialize-direnv-when-using-instant-prompt)
 
 ### What do different symbols in Git status mean?
 
@@ -1588,7 +1645,7 @@ There are several ways to fix this.
   The parameters you are looking for are called `POWERLEVEL9K_DIR_BACKGROUND`,
   `POWERLEVEL9K_DIR_FOREGROUND`, `POWERLEVEL9K_DIR_SHORTENED_FOREGROUND`,
   `POWERLEVEL9K_DIR_ANCHOR_FOREGROUND` and `POWERLEVEL9K_DIR_ANCHOR_BOLD`. You can find them in
-  in `~/.p10k.zsh`.
+  `~/.p10k.zsh`.
 
 ### Horrific mess when resizing terminal window
 
@@ -1826,6 +1883,8 @@ typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='${P9K_CONTENT}'  # not bold
   - [I'm using Powerlevel9k with Oh My Zsh. How do I migrate?](#im-using-powerlevel9k-with-oh-my-zsh-how-do-i-migrate)
   - [Is it really fast?](#is-it-really-fast)
   - [How do I enable instant prompt?](#how-do-i-enable-instant-prompt)
+  - [How do I initialize direnv when using instant prompt?](#how-do-i-initialize-direnv-when-using-instant-prompt)
+  - [How do I export GPG_TTY when using instant prompt?](#how-do-i-export-gpg_tty-when-using-instant-prompt)
   - [What do different symbols in Git status mean?](#what-do-different-symbols-in-git-status-mean)
   - [How do I change the format of Git status?](#how-do-i-change-the-format-of-git-status)
   - [Why is Git status from `$HOME/.git` not displayed in prompt?](#why-is-git-status-from-homegit-not-displayed-in-prompt)
