@@ -1183,19 +1183,17 @@ prompt_aws() {
   if (( $+commands[awsctx] )); then
     () {
       local profile
-      if ! _p9k_cache_stat_get $0 ~/.aws/awsctx; then
-        if [[ -f ~/.aws/config && -f ~/.aws/credentials ]]; then
-          profile="$(command awsctx --no-color 2>&1)" || profile=
-          profile="${${(@M)${(@f)profile}:#\**}#\*}"
-          _p9k_cache_set "$profile"
-        fi
+      if ! _p9k_cache_stat_get $0 ~/.aws/credentials; then
+        profile="$(command awsctx active-context 2>&1)" || profile=
+        _p9k_cache_set "$profile"
       fi
-      [[ -n $_p9k__cache_val[1] ]] || return
       awsctx_profile="$_p9k__cache_val[1]"
     }
   fi
 
   typeset -g P9K_AWS_PROFILE="${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-$awsctx_profile}}}}"
+  [[ -n $P9K_AWS_PROFILE ]] || return
+  
   local pat class state
   for pat class in "${_POWERLEVEL9K_AWS_CLASSES[@]}"; do
     if [[ $P9K_AWS_PROFILE == ${~pat} ]]; then
