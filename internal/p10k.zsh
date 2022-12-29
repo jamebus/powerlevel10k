@@ -1217,7 +1217,11 @@ prompt_aws() {
     else
       prefix=$#P9K_AWS_PROFILE:$P9K_AWS_PROFILE:
     fi
-    local kv=$_p9k__cache_val[(r)${(b)prefix}*]
+    local kv=$_p9k__cache_val[(R)${(b)prefix}*]
+    if [[ -z $kv ]]; then
+      prefix=7:default:
+      kv=$_p9k__cache_val[(R)${(b)prefix}*]
+    fi
     typeset -g P9K_AWS_REGION=${kv#$prefix}
   fi
 
