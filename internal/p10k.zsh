@@ -1193,7 +1193,7 @@ prompt_aws() {
 
   typeset -g P9K_AWS_PROFILE="${AWS_VAULT:-${AWSUME_PROFILE:-${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-$awsctx_profile}}}}"
   [[ -n $P9K_AWS_PROFILE ]] || return
-  
+
   local pat class state
   for pat class in "${_POWERLEVEL9K_AWS_CLASSES[@]}"; do
     if [[ $P9K_AWS_PROFILE == ${~pat} ]]; then
