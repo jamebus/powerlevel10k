@@ -1705,6 +1705,14 @@ function instant_prompt_toolbox() {
 }
 
 ################################################################
+# Development Containers: are we running in a devcontainer?
+function prompt_devcontainer() {
+  if [[ -n $REMOTE_CONTAINERS$CODESPACES$VSCODE_REMOTE_CONTAINERS_SESSION$GITPOD_HOST ]]; then
+    p10k segment -f blue -i 'ﰭ' -t 'devcontainer'
+  fi
+}
+
+################################################################
 # The 'custom` prompt provides a way for users to invoke commands and display
 # the output in a segment.
 _p9k_custom_prompt() {
