@@ -1778,16 +1778,9 @@ function _p9k_shorten_delim_len() {
 # Percents are duplicated because this function is currently used only
 # where the result is going to be percent-expanded.
 function _p9k_url_escape() {
-  if [[ $1 == [a-zA-Z0-9"/:_.-!'()~ "]# ]]; then
-    _p9k__ret=${1// /%%20}
-  else
-    local c
-    _p9k__ret=
-    for c in ${(s::)1}; do
-      [[ $c == [a-zA-Z0-9"/:_.-!'()~"] ]] || printf -v c '%%%%%02X' $(( #c ))
-      _p9k__ret+=$c
-    done
-  fi
+  emulate -L zsh -o no_multi_byte -o extended_glob
+  local MATCH MBEGIN MEND
+  _p9k__ret=${1//(#m)[^a-zA-Z0-9"\/:_.-!'()~"]/%%${(l:2::0:)$(([##16]#MATCH))}}
 }
 
 ################################################################
@@ -4994,13 +4987,11 @@ function prompt_nix_shell() {
 }
 
 _p9k_prompt_nix_shell_init() {
-  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='${IN_NIX_SHELL:#0}${${path[(I)/nix/store/*]}:#0}'
+  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"=$_p9k_nix_shell_cond
 }
 
 function instant_prompt_nix_shell() {
-  _p9k_prompt_segment prompt_nix_shell 4 $_p9k_color1 NIX_SHELL_ICON 1 \
-    '${IN_NIX_SHELL:#0}${${path[(I)/nix/store/*]}:#0}'                 \
-    '${(M)IN_NIX_SHELL:#(pure|impure)}'
+  _p9k_prompt_segment prompt_nix_shell 4 $_p9k_color1 NIX_SHELL_ICON 1 "$_p9k_nix_shell_cond" '${(M)IN_NIX_SHELL:#(pure|impure)}'
 }
 
 function prompt_terraform() {
@@ -7689,6 +7680,12 @@ _p9k_init_params() {
   # If set to true, time will update every second.
   _p9k_declare -b POWERLEVEL9K_EXPERIMENTAL_TIME_REALTIME 0
 
+  _p9k_declare -b POWERLEVEL9K_NIX_SHELL_INFER_FROM_PATH 0
+  typeset -g _p9k_nix_shell_cond='${IN_NIX_SHELL:#0}'
+  if (( _POWERLEVEL9K_NIX_SHELL_INFER_FROM_PATH )); then
+    _p9k_nix_shell_cond+='${path[(r)/nix/store/*]}'
+  fi
+
   local -i i=1
   while (( i <= $#_POWERLEVEL9K_LEFT_PROMPT_ELEMENTS )); do
     local segment=${${(U)_POWERLEVEL9K_LEFT_PROMPT_ELEMENTS[i]}//İ/I}
@@ -8388,7 +8385,7 @@ _p9k_must_init() {
     [[ $sig == $_p9k__param_sig ]] && return 1
     _p9k_deinit
   fi
-  _p9k__param_pat=$'v141\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
+  _p9k__param_pat=$'v144\1'${(q)ZSH_VERSION}$'\1'${(q)ZSH_PATCHLEVEL}$'\1'
   _p9k__param_pat+=$__p9k_force_term_shell_integration$'\1'
   _p9k__param_pat+=$'${#parameters[(I)POWERLEVEL9K_*]}\1${(%):-%n%#}\1$GITSTATUS_LOG_LEVEL\1'
   _p9k__param_pat+=$'$GITSTATUS_ENABLE_LOGGING\1$GITSTATUS_DAEMON\1$GITSTATUS_NUM_THREADS\1'
@@ -8516,6 +8513,7 @@ function _p9k_init_cacheable() {
           *artix*)                 _p9k_set_os Linux LINUX_ARTIX_ICON;;
           *rhel*)                  _p9k_set_os Linux LINUX_RHEL_ICON;;
           amzn)                    _p9k_set_os Linux LINUX_AMZN_ICON;;
+          endeavouros)             _p9k_set_os Linux LINUX_ENDEAVOUROS_ICON;;
           *)                       _p9k_set_os Linux LINUX_ICON;;
         esac
         ;;
