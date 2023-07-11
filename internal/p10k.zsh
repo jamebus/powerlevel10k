@@ -4674,9 +4674,10 @@ _p9k_prompt_java_version_init() {
 }
 
 prompt_azure() {
-  local cfg=${AZURE_CONFIG_DIR:-$HOME/.azure}/azureProfile.json
-  if ! _p9k_cache_stat_get $0 $cfg; then
-    local name
+  local name cfg=${AZURE_CONFIG_DIR:-$HOME/.azure}/azureProfile.json
+  if _p9k_cache_stat_get $0 $cfg; then
+    name=$_p9k__cache_val[1]
+  else
     if (( $+commands[jq] )) && name="$(jq -r '[.subscriptions[]|select(.isDefault==true)|.name][]|strings' $cfg 2>/dev/null)"; then
       name=${name%%$'\n'*}
     elif ! name="$(az account show --query name --output tsv 2>/dev/null)"; then
@@ -4684,6 +4685,7 @@ prompt_azure() {
     fi
     _p9k_cache_stat_set "$name"
   fi
+  [[ -n $name ]] || return
   local pat class state
   for pat class in "${_POWERLEVEL9K_AZURE_CLASSES[@]}"; do
     if [[ $name == ${~pat} ]]; then
@@ -4691,8 +4693,7 @@ prompt_azure() {
       break
     fi
   done
-  [[ -n $_p9k__cache_val[1] ]] || return
-  _p9k_prompt_segment "$0$state" "blue" "white" "AZURE_ICON" 0 '' "${_p9k__cache_val[1]//\%/%%}"
+  _p9k_prompt_segment "$0$state" "blue" "white" "AZURE_ICON" 0 '' "${name//\%/%%}"
 }
 
 _p9k_prompt_azure_init() {
@@ -8521,7 +8522,14 @@ function _p9k_init_cacheable() {
     _p9k_transient_prompt+='${${P9K_CONTENT::="❯"}+}'
     _p9k_param prompt_prompt_char_ERROR_VIINS CONTENT_EXPANSION '${P9K_CONTENT}'
     _p9k_transient_prompt+='${:-"'$_p9k__ret'"}'
-    _p9k_transient_prompt+=')%b%k%f%s%u '
+    _p9k_transient_prompt+=')%b%k%f%s%u'
+    _p9k_get_icon '' LEFT_SEGMENT_END_SEPARATOR
+    if [[ $_p9k__ret != (| ) ]]; then
+      _p9k__ret+=%b%k%f
+      # Not escaped for historical reasons.
+      _p9k__ret='${:-"'$_p9k__ret'"}'
+    fi
+    _p9k_transient_prompt+=$_p9k__ret
     if (( _POWERLEVEL9K_TERM_SHELL_INTEGRATION )); then
       _p9k_transient_prompt=$'%{\e]133;A\a%}'$_p9k_transient_prompt$'%{\e]133;B\a%}'
       if (( $+_z4h_iterm_cmd && _z4h_can_save_restore_screen == 1 )); then
@@ -9398,7 +9406,7 @@ if [[ $__p9k_dump_file != $__p9k_instant_prompt_dump_file && -n $__p9k_instant_p
   zf_rm -f -- $__p9k_instant_prompt_dump_file{,.zwc} 2>/dev/null
 fi
 
-typeset -g P9K_VERSION=1.19.0
+typeset -g P9K_VERSION=1.19.2
 unset VSCODE_SHELL_INTEGRATION
 
 _p9k_init_ssh
