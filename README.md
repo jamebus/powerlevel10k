@@ -693,12 +693,11 @@ If you are using a different terminal, proceed with manual font installation. �
    - **Yakuake**: Click *≡* → *Manage Profiles* → *New* → *Appearance*. Click *Choose* next to the
      *Font* dropdown, select `MesloLGS NF` and click *OK*. Click *OK* to save the profile. Select the
      new profile and click *Set as Default*.
-   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.yml` and add the following section
-     to it:
-     ```yaml
-     font:
-       normal:
-         family: "MesloLGS NF"
+   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.toml` and add the following
+     section to it:
+     ```toml
+     [font.normal]
+     family = "MesloLGS NF"
      ```
    - **foot**: Create or open `~/.config/foot/foot.ini` and add the following section to it:
      ```ini
@@ -1323,10 +1322,17 @@ terminals. Many terminals also support customization of these colors through col
 
 Type `source ~/.p10k.zsh` to apply your changes to the current Zsh session.
 
-To see how different colors look in your terminal, run the following command:
+To see how different numbered colors look in your terminal, run the following command:
 
 ```zsh
 for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
+```
+
+If your terminal supports truecolor, you can use 24-bit colors in the `#RRGGBB` format in addition
+to the numbered colors.
+
+```zsh
+typeset -g POWERLEVEL9K_TIME_FOREGROUND='#FF0000'
 ```
 
 *Related:*
